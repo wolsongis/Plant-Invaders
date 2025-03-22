@@ -1,1 +1,102 @@
 
+<!DOCTYPE html>
+ <html>
+  <head>
+
+    <!-- Required meta for browsers to allow mobile first design -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <title>Data Collector for AGOL</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        .addRecordBtn {
+            position: absolute;
+            z-index: 10;
+            top: 10px;
+            right: 10px;
+            background-color: #0079c1;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .addRecordBtn:hover {
+            background-color: #005a87;
+        }
+    </style>
+
+   <!-- importing css and libraries for esri.js -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.26/"></script>
+
+    <!-- loading the modules -->
+    <script>
+        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer" ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer) => {
+        
+            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurNAUgv3aeRUmzJ4ckMevLQLfVJhdc-z1-a5rmBvbZM6HiAtWhTkHR1uPqL3lwJdP49LWHB6rjySi-OGZeNP1ea6oiztHSf22dFyO6r4o94L1an9zLTOBsN3vlqSz7k8MyUO9e1udJ3zNViSQ518xOFVwCnGBfyh40rSb4E2X3zsumGVzsUowRjXGPUi8Odwr1Y9iVZinjPQa-7TSBIuR8E4.AT1_EtHHMprs";
+
+            const map = new Map({
+                basemap: "satellite"
+            });
+
+            const view = new MapView({
+                container: "viewDiv", // Reference to the DOM node that will contain the view
+                map: map, // References the map object
+                center: [-82.342898,29.650640], // Sets the center point of view in lon/lat
+                zoom: 12 // Adjust zoom level 
+            });
+
+            // Create featurelayer from feature service 
+            const layer = new FeatureLayer({ 
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/survey123_c24cd555ccf9452882b6bf47a949ce73_results/FeatureServer"  //Your item URL Goes Here
+            });
+
+            map.add(layer);
+
+            const locateBtn = new Locate({
+                view: view
+            });
+
+            // Add the locate widget to the top left corner of the view
+            view.ui.add(locateBtn, {
+                position: "top-left"
+            });
+
+            // Add the search widget
+            const searchWidget = new Search({
+                view: view
+            });
+
+            // add widget to the top left corner of the view. same location as the other widget so it is accessible for the user. 
+            view.ui.add(searchWidget, {
+                position: "top-left"
+            });
+        
+        });
+    </script>
+
+
+
+  </head>
+  <body>
+
+    <a href="https://arcg.is/1jCT591"target="_blank" class="addRecordBtn">Add Record</a>
+
+    <div id="viewDiv"></div>
+
+  </body>
+</html>
