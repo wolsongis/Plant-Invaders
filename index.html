@@ -66,11 +66,12 @@
             });
 
             const alachuaCountyBoundary = new FeatureLayer({ 
-               url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/survey123_c24cd555ccf9452882b6bf47a949ce73_results/FeatureServer"
+               url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Alachua_County_Border/FeatureServer"
             });
 
-            // Add both layers to the map
-            map.addMany([SurveyResults, alachuaCountyBoundary]);
+            // Add layers to the map
+            map.add(countyBoundaryLayer);
+            map.add(SurveyResults);
 
             const locateBtn = new Locate({
                 view: view
