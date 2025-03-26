@@ -60,18 +60,18 @@
                 zoom: 17 // Adjust zoom level 
             });
 
-            // Create featurelayer from feature service 
+            // Create feature layers
             const SurveyResults = new FeatureLayer({ 
-                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/survey123_c24cd555ccf9452882b6bf47a949ce73_results/FeatureServer"  //Your item URL Goes Here
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/survey123_c24cd555ccf9452882b6bf47a949ce73_results/FeatureServer"
             });
 
-            const alachuaCountyBoundary = new FeatureLayer({ 
+           const alachuaCountyBoundary = new FeatureLayer({ 
                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Alachua_County_Border/FeatureServer"
             });
 
-            // Add layers to the map
-            map.add(countyBoundaryLayer);
+            // Add layers in the correct order
             map.add(SurveyResults);
+            map.add(alachuaCountyBoundary);  // Ensure correct variable name
 
             const locateBtn = new Locate({
                 view: view
