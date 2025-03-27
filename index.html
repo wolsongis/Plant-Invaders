@@ -142,8 +142,9 @@
 
             const alachuaNaturalAreas = new FeatureLayer({
                 url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Alachua_Natural_Areas_/FeatureServer",
+                opacity: 0.65, // Set transparency 
                 popupTemplate: {
-                    title: "Natural Area: {MANAME}", // Replace 'name' with the actual field name for the natural area's name
+                    title: "Natural Area: {MANAME}", // Replace 'MANAME' with the actual field name for the natural area's name
                     content: [
                         {
                             type: "fields",
@@ -163,10 +164,10 @@
             });
 
             // Add layers in the correct order
-            map.add(SurveyResults);
             map.add(alachuaCountyBoundary);
             map.add(parksAndRecreation); // Add the Parks and Recreation layer
             map.add(alachuaNaturalAreas); // Add the Alachua Natural Areas layer
+            map.add(SurveyResults); // Add the Survey Results layer last to ensure it is on top
 
             // Add the legend widget
             const legend = new Legend({
