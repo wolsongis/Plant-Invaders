@@ -98,6 +98,16 @@
                             type: "attachments" // display photos of the invasive plant in popup    
                         }
                     ]
+                },
+                // Add a renderer to customize the point icon
+                renderer: {
+                    type: "simple", // SimpleRenderer
+                    symbol: {
+                        type: "picture-marker", // Use a custom image as the marker
+                        url: "https://raw.githubusercontent.com/wolsongis/Plant-Invaders/refs/heads/main/assets/red-plant-icon.png", // Custom icon URL
+                        width: "24px", // Width of the icon
+                        height: "24px" // Height of the icon
+                    }
                 }
             });
 
