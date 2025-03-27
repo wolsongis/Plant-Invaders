@@ -58,8 +58,10 @@
                  
                  "esri/widgets/Editor", 
                  
-                 "esri/widgets/Legend"],
-                 (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend) => {
+                 "esri/widgets/Legend",
+                 
+                 "esri/widgets/LayerList"],
+                 (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend, LayerList) => {
         
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurNAUgv3aeRUmzJ4ckMevLQLfVJhdc-z1-a5rmBvbZM6HiAtWhTkHR1uPqL3lwJdP49LWHB6rjySi-OGZeNP1ea6oiztHSf22dFyO6r4o94L1an9zLTOBsN3vlqSz7k8MyUO9e1udJ3zNViSQ518xOFVwCnGBfyh40rSb4E2X3zsumGVzsUowRjXGPUi8Odwr1Y9iVZinjPQa-7TSBIuR8E4.AT1_EtHHMprs";
 
@@ -119,18 +121,40 @@
             const parksAndRecreation = new FeatureLayer({
                 url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Parks_and_Recreation_Areas_in_Alachua_County/FeatureServer",
                 popupTemplate: {
-                    title: "Park: {park_name}", // Replace 'park_name' with the actual field name for park names
+                    title: "Park: {NAME}", // Replace 'park_name' with the actual field name for park names
                     content: [
                         {
                             type: "fields",
                             fieldInfos: [
                                 {
-                                    fieldName: "park_name", // Replace with actual field names
-                                    label: "Park Name"
+                                    fieldName: "TYPE", // Replace with actual field names
+                                    label: "Park Type"
                                 },
                                 {
-                                    fieldName: "amenities", // Replace with actual field names
-                                    label: "Amenities"
+                                    fieldName: "OWNER", // Replace with actual field names
+                                    label: "Owner"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            });
+
+            const alachuaNaturalAreas = new FeatureLayer({
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Alachua_Natural_Areas_/FeatureServer",
+                popupTemplate: {
+                    title: "Natural Area: {MANAME}", // Replace 'name' with the actual field name for the natural area's name
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "OWNER", // Replace with actual field names
+                                    label: "Owner"
+                                },
+                                {
+                                    fieldName: "DESCRIPT", // Replace with actual field names
+                                    label: "Description"
                                 }
                             ]
                         }
@@ -142,6 +166,7 @@
             map.add(SurveyResults);
             map.add(alachuaCountyBoundary);
             map.add(parksAndRecreation); // Add the Parks and Recreation layer
+            map.add(alachuaNaturalAreas); // Add the Alachua Natural Areas layer
 
             // Add the legend widget
             const legend = new Legend({
@@ -158,12 +183,39 @@
                     {
                         layer: parksAndRecreation,
                         title: "Parks and Recreation Areas"
+                    },
+                    {
+                        layer: alachuaNaturalAreas,
+                        title: "Alachua Natural Areas"
                     }
                 ]
             });
 
             // Add the legend widget to the bottom-right corner of the view
             view.ui.add(legend, {
+                position: "bottom-right"
+            });
+
+            // Add the LayerList widget
+            const layerList = new LayerList({
+                view: view, // Attach the LayerList to the map view
+                listItemCreatedFunction: (event) => {
+                    const item = event.item;
+                    // Customize the title for each layer
+                    if (item.layer === SurveyResults) {
+                        item.title = "Survey Results";
+                    } else if (item.layer === alachuaCountyBoundary) {
+                        item.title = "Alachua County Boundary";
+                    } else if (item.layer === parksAndRecreation) {
+                        item.title = "Parks and Recreation Areas";
+                    } else if (item.layer === alachuaNaturalAreas) {
+                        item.title = "Alachua Natural Areas";
+                    }
+                }
+            });
+
+            // Add the LayerList widget to the bottom-right corner of the view
+            view.ui.add(layerList, {
                 position: "bottom-right"
             });
 
@@ -185,21 +237,6 @@
             view.ui.add(searchWidget, {
                 position: "top-left"
             });
-
-            // Add an event listener to the checkbox to toggle the layer visibility
-            document.getElementById("toggleParksLayer").addEventListener("change", (event) => {
-                parksAndRecreation.visible = event.target.checked;
-            });
-
-            // Add the toggle control to the bottom-right corner of the view
-            view.ui.add(
-                new HTMLElement({
-                    container: document.getElementById("toggleControl"),
-                }),
-                {
-                    position: "bottom-right",
-                }
-            );
         
         });
     </script>
@@ -208,14 +245,6 @@
 
   </head>
   <body>
-    <!-- Add a toggle control for the Parks and Recreation layer -->
-    <div id="toggleControl" style="background: white; padding: 10px; border-radius: 5px;">
-        <label>
-            <input type="checkbox" id="toggleParksLayer" checked />
-            Show Parks and Recreation Areas
-        </label>
-    </div>
-
     <a href="https://arcg.is/1mfiie4" target="_blank" class="addRecordBtn">Add Record</a>
 
     <div id="viewDiv"></div>
