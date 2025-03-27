@@ -115,9 +115,57 @@
                 url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Alachua_County_Border/FeatureServer"
             });
 
+            // Add Parks and Recreation Areas layer
+            const parksAndRecreation = new FeatureLayer({
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Parks_and_Recreation_Areas_in_Alachua_County/FeatureServer",
+                popupTemplate: {
+                    title: "Park: {park_name}", // Replace 'park_name' with the actual field name for park names
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "park_name", // Replace with actual field names
+                                    label: "Park Name"
+                                },
+                                {
+                                    fieldName: "amenities", // Replace with actual field names
+                                    label: "Amenities"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            });
+
             // Add layers in the correct order
             map.add(SurveyResults);
-            map.add(alachuaCountyBoundary);  // Ensure correct variable name
+            map.add(alachuaCountyBoundary);
+            map.add(parksAndRecreation); // Add the Parks and Recreation layer
+
+            // Add the legend widget
+            const legend = new Legend({
+                view: view, // Attach the legend to the map view
+                layerInfos: [
+                    {
+                        layer: SurveyResults,
+                        title: "Survey Results"
+                    },
+                    {
+                        layer: alachuaCountyBoundary,
+                        title: "Alachua County Boundary"
+                    },
+                    {
+                        layer: parksAndRecreation,
+                        title: "Parks and Recreation Areas"
+                    }
+                ]
+            });
+
+            // Add the legend widget to the bottom-right corner of the view
+            view.ui.add(legend, {
+                position: "bottom-right"
+            });
 
             const locateBtn = new Locate({
                 view: view
