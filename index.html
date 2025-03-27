@@ -194,7 +194,7 @@
             // Add the toggle control to the bottom-right corner of the view
             view.ui.add(
                 new HTMLElement({
-                    container: document.getElementById("toggleParksLayer"),
+                    container: document.getElementById("toggleControl"),
                 }),
                 {
                     position: "bottom-right",
@@ -209,7 +209,7 @@
   </head>
   <body>
     <!-- Add a toggle control for the Parks and Recreation layer -->
-    <div style="position: absolute; top: 10px; left: 10px; z-index: 10; background: white; padding: 10px; border-radius: 5px;">
+    <div id="toggleControl" style="background: white; padding: 10px; border-radius: 5px;">
         <label>
             <input type="checkbox" id="toggleParksLayer" checked />
             Show Parks and Recreation Areas
