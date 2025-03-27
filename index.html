@@ -185,6 +185,21 @@
             view.ui.add(searchWidget, {
                 position: "top-left"
             });
+
+            // Add an event listener to the checkbox to toggle the layer visibility
+            document.getElementById("toggleParksLayer").addEventListener("change", (event) => {
+                parksAndRecreation.visible = event.target.checked;
+            });
+
+            // Add the toggle control to the bottom-right corner of the view
+            view.ui.add(
+                new HTMLElement({
+                    container: document.getElementById("toggleParksLayer"),
+                }),
+                {
+                    position: "bottom-right",
+                }
+            );
         
         });
     </script>
@@ -193,8 +208,15 @@
 
   </head>
   <body>
+    <!-- Add a toggle control for the Parks and Recreation layer -->
+    <div style="position: absolute; top: 10px; left: 10px; z-index: 10; background: white; padding: 10px; border-radius: 5px;">
+        <label>
+            <input type="checkbox" id="toggleParksLayer" checked />
+            Show Parks and Recreation Areas
+        </label>
+    </div>
 
-    <a href="https://arcg.is/1mfiie4"target="_blank" class="addRecordBtn">Add Record</a>
+    <a href="https://arcg.is/1mfiie4" target="_blank" class="addRecordBtn">Add Record</a>
 
     <div id="viewDiv"></div>
 
