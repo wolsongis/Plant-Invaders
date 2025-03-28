@@ -261,25 +261,6 @@
             // Add the basemap toggle widget to the bottom-left corner
             view.ui.add(basemapToggle, "bottom-left");
 
-            // Add the time slider widget
-            const timeSlider = new TimeSlider({
-                container: "timeSliderDiv",
-                view: view,
-                timeExtent: {
-                    start: new Date(2020, 0, 1),
-                    end: new Date(2025, 0, 1)
-                },
-                stops: {
-                    interval: {
-                        value: 1,
-                        unit: "years"
-                    }
-                }
-            });
-
-            // Add the time slider to the bottom of the map
-            view.ui.add(timeSlider, "bottom-left");
-
             // Add a button to toggle between heatmap and point renderer
             const toggleRendererButton = document.createElement("button");
             toggleRendererButton.innerHTML = "Toggle Renderer";
