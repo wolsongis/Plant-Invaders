@@ -107,13 +107,10 @@
                 },
                 // Add a renderer to customize the point icon
                 renderer: {
-                    type: "simple", // SimpleRenderer
-                    symbol: {
-                        type: "picture-marker", // Use a custom image as the marker
-                        url: "https://raw.githubusercontent.com/wolsongis/Plant-Invaders/refs/heads/main/assets/red-plant-icon.png", // Custom icon URL
-                        width: "24px", // Width of the icon
-                        height: "24px" // Height of the icon
-                    }
+                    type: "picture-marker", // Use a custom image as the marker
+                    url: "https://raw.githubusercontent.com/wolsongis/Plant-Invaders/refs/heads/main/assets/red-plant-icon.png", // Custom icon URL
+                    width: "24px", // Width of the icon
+                    height: "24px" // Height of the icon
                 }
             });
 
@@ -282,6 +279,46 @@
 
             // Add the time slider to the bottom of the map
             view.ui.add(timeSlider, "bottom-left");
+
+            // Add a button to toggle between heatmap and point renderer
+            const toggleRendererButton = document.createElement("button");
+            toggleRendererButton.innerHTML = "Toggle Renderer";
+            toggleRendererButton.style.position = "absolute";
+            toggleRendererButton.style.top = "10px";
+            toggleRendererButton.style.left = "10px";
+            toggleRendererButton.style.zIndex = "10";
+            document.body.appendChild(toggleRendererButton);
+
+            let isHeatmap = false;
+
+            toggleRendererButton.addEventListener("click", () => {
+                if (isHeatmap) {
+                    // Switch to point renderer
+                    SurveyResults.renderer = {
+                        type: "simple",
+                        symbol: {
+                            type: "picture-marker",
+                            url: "https://raw.githubusercontent.com/wolsongis/Plant-Invaders/refs/heads/main/assets/red-plant-icon.png",
+                            width: "24px",
+                            height: "24px"
+                        }
+                    };
+                } else {
+                    // Switch to heatmap renderer
+                    SurveyResults.renderer = {
+                        type: "heatmap",
+                        colorStops: [
+                            { color: "rgba(63, 40, 102, 0)", ratio: 0 },
+                            { color: "#f7c59f", ratio: 0.5 },
+                            { color: "#f27d0c", ratio: 0.8 },
+                            { color: "#800026", ratio: 1 }
+                        ],
+                        maxPixelIntensity: 100,
+                        minPixelIntensity: 0
+                    };
+                }
+                isHeatmap = !isHeatmap;
+            });
         
         });
     </script>
