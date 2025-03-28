@@ -60,8 +60,12 @@
                  
                  "esri/widgets/Legend",
                  
-                 "esri/widgets/LayerList"],
-                 (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend, LayerList) => {
+                 "esri/widgets/LayerList",
+                 
+                 "esri/widgets/BasemapToggle",
+                 
+                 "esri/widgets/TimeSlider"],
+                 (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend, LayerList, BasemapToggle, TimeSlider) => {
         
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurNAUgv3aeRUmzJ4ckMevLQLfVJhdc-z1-a5rmBvbZM6HiAtWhTkHR1uPqL3lwJdP49LWHB6rjySi-OGZeNP1ea6oiztHSf22dFyO6r4o94L1an9zLTOBsN3vlqSz7k8MyUO9e1udJ3zNViSQ518xOFVwCnGBfyh40rSb4E2X3zsumGVzsUowRjXGPUi8Odwr1Y9iVZinjPQa-7TSBIuR8E4.AT1_EtHHMprs";
 
@@ -112,6 +116,18 @@
                     }
                 }
             });
+
+            SurveyResults.renderer = {
+                type: "heatmap",
+                colorStops: [
+                    { color: "rgba(63, 40, 102, 0)", ratio: 0 },
+                    { color: "#f7c59f", ratio: 0.5 },
+                    { color: "#f27d0c", ratio: 0.8 },
+                    { color: "#800026", ratio: 1 }
+                ],
+                maxPixelIntensity: 100,
+                minPixelIntensity: 0
+            };
 
             const alachuaCountyBoundary = new FeatureLayer({ 
                 url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Alachua_County_Border/FeatureServer"
@@ -238,6 +254,34 @@
             view.ui.add(searchWidget, {
                 position: "top-left"
             });
+
+            // Add the basemap toggle widget
+            const basemapToggle = new BasemapToggle({
+                view: view,
+                nextBasemap: "streets" // Basemap to toggle to
+            });
+
+            // Add the basemap toggle widget to the bottom-left corner
+            view.ui.add(basemapToggle, "bottom-left");
+
+            // Add the time slider widget
+            const timeSlider = new TimeSlider({
+                container: "timeSliderDiv",
+                view: view,
+                timeExtent: {
+                    start: new Date(2020, 0, 1),
+                    end: new Date(2025, 0, 1)
+                },
+                stops: {
+                    interval: {
+                        value: 1,
+                        unit: "years"
+                    }
+                }
+            });
+
+            // Add the time slider to the bottom of the map
+            view.ui.add(timeSlider, "bottom-left");
         
         });
     </script>
