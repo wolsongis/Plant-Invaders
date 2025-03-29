@@ -113,13 +113,13 @@
             const SurveyResults = new FeatureLayer({ 
                 url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/survey123_fcc56d0a48cd4e4ea97e0156c2628d6c_results/FeatureServer",
                 popupTemplate: {  
-                    title: "Invasive Plant: {invasive_name}", // title of the popup 
+                    title: "Invasive Plant: {invasive_name}", // Title of the popup 
                     content: [
                         {
                             type: "fields",
                             fieldInfos: [
                                 {
-                                    fieldName: "date_of_report", // date when plant was encountered 
+                                    fieldName: "date_of_report", // Date when plant was encountered 
                                     label: "Date of Spotting"
                                 },
                                 {
@@ -129,16 +129,19 @@
                             ]
                         },
                         {
-                            type: "attachments" // display photos of the invasive plant in popup    
+                            type: "attachments" // Display photos of the invasive plant in the popup    
                         }
                     ]
                 },
                 // Add a renderer to customize the point icon
                 renderer: {
-                    type: "picture-marker", // Use a custom image as the marker
-                    url: "https://raw.githubusercontent.com/wolsongis/Plant-Invaders/refs/heads/main/assets/red-plant-icon.png", // Custom icon URL
-                    width: "24px", // Width of the icon
-                    height: "24px" // Height of the icon
+                    type: "simple", // SimpleRenderer
+                    symbol: {
+                        type: "picture-marker", // Use a custom image as the marker
+                        url: "https://raw.githubusercontent.com/wolsongis/Plant-Invaders/refs/heads/main/assets/red-plant-icon.png", // Custom icon URL
+                        width: "24px", // Width of the icon
+                        height: "24px" // Height of the icon
+                    }
                 }
             });
 
@@ -196,7 +199,7 @@
             map.add(alachuaCountyBoundary);
             map.add(parksAndRecreation); // Add the Parks and Recreation layer
             map.add(alachuaNaturalAreas); // Add the Alachua Natural Areas layer
-            map.add(SurveyResults); // Add the Survey Results layer last to ensure it is on top
+            map.add(SurveyResults); // Add the Survey Results layer
 
             // Add the legend widget
             const legend = new Legend({
