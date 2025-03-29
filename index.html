@@ -21,7 +21,7 @@
         .addRecordBtn {
             position: absolute;
             z-index: 10;
-            top: 50px;
+            top: 60px;
             right: 10px;
             background-color: #0079c1;
             color: white;
@@ -34,6 +34,34 @@
         }
 
         .addRecordBtn:hover {
+            background-color: #005a87;
+        }
+
+        #toolbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 10px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #toolbar button {
+            background-color: #0079c1;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        #toolbar button:hover {
             background-color: #005a87;
         }
     </style>
@@ -113,18 +141,6 @@
                     height: "24px" // Height of the icon
                 }
             });
-
-            SurveyResults.renderer = {
-                type: "heatmap",
-                colorStops: [
-                    { color: "rgba(63, 40, 102, 0)", ratio: 0 },
-                    { color: "#f7c59f", ratio: 0.5 },
-                    { color: "#f27d0c", ratio: 0.8 },
-                    { color: "#800026", ratio: 1 }
-                ],
-                maxPixelIntensity: 100,
-                minPixelIntensity: 0
-            };
 
             const alachuaCountyBoundary = new FeatureLayer({ 
                 url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Alachua_County_Border/FeatureServer"
@@ -292,40 +308,6 @@
 
             // Add the basemap toggle widget to the bottom-left corner
             view.ui.add(basemapToggle, "bottom-left");
-
-            // Add a button to toggle between heatmap and point renderer
-            const toggleRendererButton = document.getElementById("toggleRendererButton");
-
-            let isHeatmap = false;
-
-            toggleRendererButton.addEventListener("click", () => {
-                if (isHeatmap) {
-                    // Switch to point renderer
-                    SurveyResults.renderer = {
-                        type: "simple",
-                        symbol: {
-                            type: "picture-marker",
-                            url: "https://raw.githubusercontent.com/wolsongis/Plant-Invaders/refs/heads/main/assets/red-plant-icon.png",
-                            width: "24px",
-                            height: "24px"
-                        }
-                    };
-                } else {
-                    // Switch to heatmap renderer
-                    SurveyResults.renderer = {
-                        type: "heatmap",
-                        colorStops: [
-                            { color: "rgba(63, 40, 102, 0)", ratio: 0 },
-                            { color: "#f7c59f", ratio: 0.5 },
-                            { color: "#f27d0c", ratio: 0.8 },
-                            { color: "#800026", ratio: 1 }
-                        ],
-                        maxPixelIntensity: 100,
-                        minPixelIntensity: 0
-                    };
-                }
-                isHeatmap = !isHeatmap;
-            });
         
         });
     </script>
@@ -338,7 +320,6 @@
     <div id="toolbar" style="position: absolute; top: 0; left: 0; width: 100%; background: white; padding: 10px; z-index: 10; display: flex; gap: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
         <button id="toggleLegendButton">Toggle Legend</button>
         <button id="toggleLayerListButton">Toggle Layer Visibility</button>
-        <button id="toggleRendererButton">Toggle Heatmap/Point Map</button>
     </div>
 
     <a href="https://arcg.is/1mfiie4" target="_blank" class="addRecordBtn">Add Record</a>
