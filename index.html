@@ -210,6 +210,22 @@
                 position: "bottom-right"
             });
 
+            // Create a button to toggle the legend
+            const toggleLegendButton = document.getElementById("toggleLegendButton");
+
+            // Track the legend's visibility state
+            let isLegendVisible = true;
+
+            // Add an event listener to toggle the legend
+            toggleLegendButton.addEventListener("click", () => {
+                if (isLegendVisible) {
+                    view.ui.remove(legend); // Remove the legend from the UI
+                } else {
+                    view.ui.add(legend, "bottom-right"); // Add the legend back to the UI
+                }
+                isLegendVisible = !isLegendVisible; // Toggle the visibility state
+            });
+
             // Add the LayerList widget
             const layerList = new LayerList({
                 view: view, // Attach the LayerList to the map view
@@ -231,6 +247,22 @@
             // Add the LayerList widget to the bottom-right corner of the view
             view.ui.add(layerList, {
                 position: "bottom-right"
+            });
+
+            // Create a button to toggle the LayerList
+            const toggleLayerListButton = document.getElementById("toggleLayerListButton");
+
+            // Track the LayerList's visibility state
+            let isLayerListVisible = true;
+
+            // Add an event listener to toggle the LayerList
+            toggleLayerListButton.addEventListener("click", () => {
+                if (isLayerListVisible) {
+                    view.ui.remove(layerList); // Remove the LayerList from the UI
+                } else {
+                    view.ui.add(layerList, "bottom-right"); // Add the LayerList back to the UI
+                }
+                isLayerListVisible = !isLayerListVisible; // Toggle the visibility state
             });
 
             const locateBtn = new Locate({
@@ -262,13 +294,7 @@
             view.ui.add(basemapToggle, "bottom-left");
 
             // Add a button to toggle between heatmap and point renderer
-            const toggleRendererButton = document.createElement("button");
-            toggleRendererButton.innerHTML = "Toggle Renderer";
-            toggleRendererButton.style.position = "absolute";
-            toggleRendererButton.style.top = "10px";
-            toggleRendererButton.style.left = "10px";
-            toggleRendererButton.style.zIndex = "10";
-            document.body.appendChild(toggleRendererButton);
+            const toggleRendererButton = document.getElementById("toggleRendererButton");
 
             let isHeatmap = false;
 
@@ -308,6 +334,13 @@
 
   </head>
   <body>
+    <!-- Toolbar for toggle buttons -->
+    <div id="toolbar" style="position: absolute; top: 0; left: 0; width: 100%; background: white; padding: 10px; z-index: 10; display: flex; gap: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+        <button id="toggleLegendButton">Toggle Legend</button>
+        <button id="toggleLayerListButton">Toggle Layer Visibility</button>
+        <button id="toggleRendererButton">Toggle Heatmap/Point Map</button>
+    </div>
+
     <a href="https://arcg.is/1mfiie4" target="_blank" class="addRecordBtn">Add Record</a>
 
     <div id="viewDiv"></div>
